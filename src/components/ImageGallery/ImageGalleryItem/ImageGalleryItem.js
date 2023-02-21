@@ -1,16 +1,18 @@
 import React from 'react';
 import css from './ImageGalleryItem.modul.css';
 
-export const ImageGalleryItem = ({ webformatURL, tags }) => {
+export const ImageGalleryItem = ({ modalSwitch, imgItems  }) => {
+  // console.log('modalSwitch >>', modalSwitch);
+  // console.log('imgItems >>', imgItems);
   return (
     <li
       className={css.ImageGalleryItem}
-      onClick={() => this.props.modalSwitch(this.props.imgItems)}
+      onClick={() => modalSwitch(imgItems)}
     >
       <img
         className={css.ImageGalleryItemImage}
-        src={webformatURL}
-        alt={tags}
+        src={imgItems.webformatURL}
+        alt={imgItems.tags}
         loading="lazy"
       />
     </li>
