@@ -1,54 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 // npm i react-icons
 import { FiSearch } from 'react-icons/fi';
 import css from './Searchbar.module.css';
 
-export class Searchbar extends React.Component {
-  state = {
-    search: '',
-  }
+export const Searchbar = ({newSearch}) => {
+  const [search, setSearch] = useState('');
 
-  handleChange = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
+  const handleChange = evt => {
+    setSearch(evt.target.value);
   };
 
-  handleSubmit = evt => {
+  const handleSubmit = evt => {
     evt.preventDefault();
-    const value = this.state.search
+
+    if (search.length < 1) return
     
-    if(value.length < 1 ) {return};
-    // console.log(value.length );
-    this.props.newSearch(value);
-    this.reset();
-  }
+    newSearch(search);
+    reset();
+  };
 
-  reset = () => {
-    this.setState({ search: ''})
-  }
+  const reset = () => {
+    setSearch('');
+  };
 
-  render() {
-    return (
+  return (
+    <section className={css.SearchBar}>
+      <form className={css.SearchForm} onSubmit={handleSubmit}>
+        <button className={css.SearchForm_button} type="submit">
+          <FiSearch size="20px" />
+        </button>
 
-      <section className={css.SearchBar}>
-        <form className={css.SearchForm} onSubmit={this.handleSubmit}>
-
-          <button className={css.SearchForm_button} type="submit" >
-              <FiSearch size="20px" />
-          </button>
-
-          <input
-            className={css.SearchForm_input}
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            name="search"
-            value={this.state.search}
-            onChange={this.handleChange}
-          />
-        </form>
-      </section>
-    );
-  }
-}
+        <input
+          className={css.SearchForm_input}
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          name="search"
+          value={search}
+          onChange={handleChange}
+        />
+      </form>
+    </section>
+  );
+};

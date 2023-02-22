@@ -4,9 +4,8 @@ import css from './ImageGallery.module.css';
 
 export const ImageGallery = ({ imgList, modalSwitch }) => {
   return (
-    <ul className={css.ImageGallery} >
-      {imgList.map( imgItems=>{
-        // console.log('map in ImageGallery >> ', imgItems );
+    <ul className={css.ImageGallery}>
+      {imgList.map(imgItems => {
         return (
           <ImageGalleryItem
             key={imgItems.id}
@@ -17,4 +16,4 @@ export const ImageGallery = ({ imgList, modalSwitch }) => {
       })}
     </ul>
   );
-}
+};
