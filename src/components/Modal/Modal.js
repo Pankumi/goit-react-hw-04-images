@@ -1,26 +1,30 @@
 import React, { useEffect } from 'react';
 import css from './Modal.module.css';
 
-export const Modal = ({
-  selectedImg: { largeImageURL, tags },
-  modalSwitch,
-}) => {
+export const Modal = ({ selectedImg: { largeImageURL, tags }, modalSwitch }) => {
+  
   useEffect(() => {
-    window.addEventListener('keydown', handleEvent);
+    const handleEventEscape = ({ code, target, currentTarget }) => {
+      if (code === 'Escape' ) {
+        modalSwitch();
+      }
+    };
+
+    window.addEventListener('keydown', handleEventEscape);
 
     return () => {
-      window.removeEventListener('reydown', handleEvent);
+      window.removeEventListener('keydown', handleEventEscape);
     };
-  }, []);
+  }, [modalSwitch]);
 
-  const handleEvent = ({ code, target, currentTarget }) => {
-    if (code === 'Escape' || target === currentTarget) {
+  const handleEventClick = ({ code, target, currentTarget }) => {
+    if ( target === currentTarget ) {
       modalSwitch();
     }
   };
 
   return (
-    <div className={css.Overlay} onClick={handleEvent}>
+    <div className={css.Overlay} onClick={handleEventClick}>
       <div className={css.Modal}>
         <img src={largeImageURL} alt={tags} />
       </div>

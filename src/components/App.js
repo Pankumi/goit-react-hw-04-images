@@ -26,8 +26,24 @@ export const App = () => {
 
   useEffect(() => {
     if (searchQuery === null) return;
+
+    const runRequest = async () => {
+      setIsLoading(true);
+      try {
+        const data = await requestImg(imgOnPage, searchQuery, pageNum);
+        setImgList(prevState => [...prevState, ...data.hits]);
+        setTotalImg(data.totalHits);
+        setError(null);
+      } catch (err) {
+        console.log('err >> ', err);
+        setError(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     runRequest();
-  }, [searchQuery, pageNum]);
+  }, [ searchQuery, pageNum ]);
 
   const newSearch = value => {
     setImgList([]);
@@ -41,23 +57,6 @@ export const App = () => {
 
   const modalSwitch = (value = null) => {
     setSelectedImg(value);
-  };
-
-  const runRequest = async () => {
-    setIsLoading(true);
-
-    try {
-      const data = await requestImg(imgOnPage, searchQuery, pageNum);
-
-      setImgList(prevState => [...prevState, ...data.hits]);
-      setTotalImg(data.totalHits);
-      setError(null);
-    } catch (err) {
-      console.log('err >> ', err);
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const switchButton = imgOnPage * pageNum < totalImg;
